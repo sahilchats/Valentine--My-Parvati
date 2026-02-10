@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parvati 💖</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
+  background: radial-gradient(circle at top, #ffe3f1, #ffc1dc);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  overflow: hidden;
+}
+
+.card {
+  background: white;
+  padding: 28px;
+  border-radius: 28px;
+  text-align: center;
+  width: 100%;
+  max-width: 380px;
+  box-shadow: 0 25px 50px rgba(255,79,139,0.25);
+  animation: pop 0.6s ease;
+}
+
+@keyframes pop {
+  from { transform: scale(0.85); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.title {
+  font-size: 36px;
+  font-weight: 800;
+  background: linear-gradient(45deg,#ff4f8b,#ff85b3);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+  font-size: 20px;
+  color: #ff6fa5;
+  margin: 12px 0 18px;
+}
+
+.gif {
+  width: 170px;
+  margin-bottom: 18px;
+}
+
+.message {
+  font-size: 18px;
+  color: #555;
+  margin-bottom: 22px;
+  min-height: 48px;
+}
+
+.buttons {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+}
+
+button {
+  border: none;
+  border-radius: 14px;
+  padding: 14px 26px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#yesBtn {
+  background: linear-gradient(45deg,#ff4f8b,#ff85b3);
+  color: white;
+}
+
+#noBtn {
+  background: #eee;
+  color: #555;
+}
+
+/* YES SCREEN */
+.yes-screen {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle,#ffe3f1,#ffc1dc);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 1s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.yes-card {
+  background: white;
+  padding: 32px;
+  border-radius: 30px;
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(255,79,139,0.3);
+}
+
+.hug {
+  font-size: 80px;
+  animation: hug 1.6s ease-in-out infinite;
+}
+
+@keyframes hug {
+  0%,100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+.final-text {
+  font-size: 20px;
+  color: #ff4f8b;
+  margin: 14px 0 10px;
+  line-height: 1.6;
+}
+
+video {
+  width: 100%;
+  border-radius: 20px;
+  margin-top: 16px;
+}
+
+.heart {
+  position: absolute;
+  bottom: -20px;
+  font-size: 22px;
+  animation: float 5s linear forwards;
+}
+
+@keyframes float {
+  to {
+    transform: translateY(-120vh);
+    opacity: 0;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="card" id="mainCard">
+  <div class="title">Parvati 💕</div>
+  <div class="subtitle">Will you be my Valentine?</div>
+
+  <img class="gif"
+    src="https://media.tenor.com/1vP51Z9l2hkAAAAM/cute-pinch.gif">
+
+  <div class="message" id="message">
+    I made this just for you 🥺💗
+  </div>
+
+  <div class="buttons">
+    <button id="yesBtn">Yes 💘</button>
+    <button id="noBtn">No</button>
+  </div>
+</div>
+
+<script>
+const messages = [
+  "Are you sure? 🥺",
+  "Please think again 💔",
+  "This is getting emotional 😭",
+  "My heart is waiting 💕",
+  "Okay… last chance 💞"
+];
+
+let count = 0;
+let yesSize = 18;
+
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const message = document.getElementById("message");
+
+noBtn.onclick = () => {
+  if (count < messages.length) {
+    message.innerText = messages[count++];
+  }
+  yesSize += 6;
+  yesBtn.style.fontSize = yesSize + "px";
+};
+
+yesBtn.onclick = () => {
+  document.getElementById("mainCard").remove();
+
+  const screen = document.createElement("div");
+  screen.className = "yes-screen";
+  screen.innerHTML = `
+    <div class="yes-card">
+      <div class="hug">🤗</div>
+      <div class="final-text">
+        Parvati,<br>
+        this hug is for you 💕<br>
+        I’m really happy you said yes.
+      </div>
+    </div>
+  `;
+  document.body.appendChild(screen);
+
+  const video = document.createElement("video");
+  video.src = "final-video.mp4";
+  video.autoplay = true;
+  video.playsInline = true;
+  video.controls = false;
+
+  document.querySelector(".yes-card").appendChild(video);
+
+  setInterval(() => {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerText = "💖";
+    heart.style.left = Math.random() * 100 + "vw";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 5000);
+  }, 300);
+};
+</script>
+
+</body>
+</html>
